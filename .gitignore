@@ -1,0 +1,9 @@
+# claude code session data
+.claude/
+
+# lua_ls generated workspace settings
+.luarc.json
+
+# misc local state
+*.log
+.repro/
