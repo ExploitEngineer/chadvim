@@ -14,6 +14,11 @@ nvim                  # first run: lazy.nvim bootstraps and installs everything
 :MasonInstallAll      # LSP servers, formatters, debug adapters (async, run once)
 ```
 
+## Docs
+
+- [docs/CODE-TOUR.md](docs/CODE-TOUR.md) — reading order, load order, what lives where, "where do I add X"
+- [docs/CONCEPTS.md](docs/CONCEPTS.md) — LSP, DAP, Mason, lazy.nvim, treesitter, conform, base46 … explained
+
 ## Structure
 
 ```
