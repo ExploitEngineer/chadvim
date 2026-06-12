@@ -10,16 +10,10 @@ M.base46 = {
   -- compile theme colors for these added plugins too (loaded in options.lua)
   integrations = { "dap", "diffview", "flash", "trouble", "todo", "grug_far" },
 
-  hl_override = {
-    -- base46 has no lazy.nvim integration; Lazy's own defaults (CursorLine
-    -- links) are unreadable on several themes — pin to palette colors instead
-    LazyButton = { bg = "one_bg2", fg = "light_grey" },
-    LazyButtonActive = { bg = "blue", fg = "black" },
-    LazyH1 = { bg = "blue", fg = "black" },
-
-    -- Comment = { italic = true },
-    -- ["@comment"] = { italic = true },
-  },
+  -- hl_override = {
+  --   Comment = { italic = true },
+  --   ["@comment"] = { italic = true },
+  -- },
 }
 
 M.nvdash = { load_on_startup = true }
