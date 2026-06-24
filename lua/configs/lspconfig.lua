@@ -67,6 +67,44 @@ vim.lsp.config("gopls", {
   },
 })
 
+-- zls is NOT from mason: the zig toolchain here is a nightly (0.17.0-dev), and
+-- mason only ships tagged zls releases, which refuse to run against dev zig.
+-- A version-matched zls nightly is installed at ~/.local/bin/zls (on PATH, so
+-- it auto-discovers the zig binary sitting next to it). Re-match after a zig
+-- bump with the zigtools version selector:
+--   https://releases.zigtools.org/v1/zls/select-version?zig_version=$(zig version)&compatibility=full
+vim.lsp.config("zls", {
+  -- pin the nightly binary explicitly: options.lua prepends mason/bin to PATH,
+  -- so a stray mason zls (tagged, e.g. 0.16) would otherwise shadow this one
+  -- and mismatch the nightly zig, which is what produced the degraded analysis.
+  cmd = { vim.fn.expand "~/.local/bin/zls" },
+  settings = {
+    zls = {
+      -- live compiler diagnostics: zls runs the build on save, so type/compile
+      -- errors surface while typing instead of only at `zig build` time. In a
+      -- large project add a `check` step to build.zig and point this at it via
+      -- build_on_save_args = { "check" } to avoid emitting install artifacts.
+      enable_build_on_save = true,
+
+      -- richer completion: expand snippet bodies and fill argument placeholders
+      enable_snippets = true,
+      enable_argument_placeholders = true,
+
+      -- full semantic highlighting + inlay hints (toggle hint display with
+      -- vim.lsp.inlay_hint.enable if wanted; zls just provides the data here)
+      semantic_tokens = "full",
+      inlay_hints_show_variable_type_hints = true,
+      inlay_hints_show_parameter_name = true,
+      inlay_hints_show_builtin = true,
+      inlay_hints_hide_redundant_param_names = true,
+      inlay_hints_hide_redundant_param_names_last_token = true,
+
+      warn_style = true,
+      highlight_global_var_declarations = true,
+    },
+  },
+})
+
 vim.lsp.config("jsonls", {
   settings = {
     json = {
@@ -102,4 +140,5 @@ vim.lsp.enable {
   "bashls",
   "dockerls",
   "asm_lsp",
+  "zls",
 }

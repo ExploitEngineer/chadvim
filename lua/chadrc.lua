@@ -20,6 +20,9 @@ M.nvdash = { load_on_startup = true }
 
 -- :MasonInstallAll reads this list (mason registry names, not lspconfig names).
 -- rustfmt comes from the system rust toolchain (pacman), so it is not listed.
+-- zls is NOT here on purpose: mason only ships tagged zls, which won't run
+-- against the nightly zig in use — a version-matched zls nightly lives at
+-- ~/.local/bin/zls instead (see configs/lspconfig.lua for the re-match command).
 M.mason = {
   pkgs = {
     -- lsp

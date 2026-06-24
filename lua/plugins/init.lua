@@ -34,6 +34,7 @@ return {
         "cmake",
         "rust",
         "toml",
+        "zig",
         -- scripting / backend
         "python",
         "go",
