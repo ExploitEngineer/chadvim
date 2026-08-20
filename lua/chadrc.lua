@@ -5,7 +5,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "rosepine",
+  theme = "ayu_dark",
 
   -- compile theme colors for these added plugins too (loaded in options.lua)
   integrations = { "dap", "diffview", "flash", "trouble", "todo", "grug_far" },
