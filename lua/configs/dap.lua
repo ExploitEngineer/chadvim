@@ -77,3 +77,20 @@ for _, ft in ipairs { "javascript", "typescript", "javascriptreact", "typescript
 end
 
 -- project-local .vscode/launch.json files are picked up automatically by nvim-dap
+
+-- Lua, i.e. this config itself, via one-small-step-for-vimkind. It debugs a
+-- *second* nvim: run <leader>dL in the instance you want to inspect (it starts
+-- the DAP server on 8086 and prints nothing), then <leader>dc from another
+-- instance and pick "Attach to running Neovim instance". <leader>dN skips the
+-- dance for a single file by launching a headless instance for it.
+dap.adapters.nlua = function(callback, config)
+  callback { type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 }
+end
+
+dap.configurations.lua = {
+  {
+    type = "nlua",
+    request = "attach",
+    name = "Attach to running Neovim instance",
+  },
+}
