@@ -45,6 +45,54 @@ return {
     end,
   },
 
+  -- Route vim.ui.select through telescope. Without this it falls back to
+  -- vim.fn.inputlist(), which prints every choice and pages them through the
+  -- "-- More --" prompt: unusable for compiler-explorer's ~900 compilers, and
+  -- poor for code actions, :Octo pickers and :RustLsp debuggables too.
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      {
+        "nvim-telescope/telescope-ui-select.nvim",
+        init = function()
+          -- telescope only loads on :Telescope, so the extension that
+          -- overrides vim.ui.select has not run the first time something
+          -- calls it. Stand in until then: the first call pulls telescope in,
+          -- which installs the real override, and re-dispatches to it.
+          local original = vim.ui.select
+          local shim
+
+          shim = function(...)
+            require("lazy").load { plugins = { "telescope.nvim" } }
+            if vim.ui.select == shim then
+              -- the extension did not take over; fall back rather than recurse
+              vim.ui.select = original
+            end
+            return vim.ui.select(...)
+          end
+
+          vim.ui.select = shim
+        end,
+      },
+    },
+    opts = function(_, opts)
+      opts.extensions = opts.extensions or {}
+      opts.extensions["ui-select"] = require("telescope.themes").get_dropdown {}
+      return opts
+    end,
+    -- NvChad passes an `extensions_list` in its telescope opts but nothing
+    -- ever reads it, so extensions have to be loaded by hand.
+    --
+    -- The name is "ui-select", not the "ui_select" the upstream README shows:
+    -- telescope's load_extension requires telescope._extensions.<name>
+    -- verbatim with no normalisation, and the module file is ui-select.lua.
+    config = function(_, opts)
+      local telescope = require "telescope"
+      telescope.setup(opts)
+      telescope.load_extension "ui-select"
+    end,
+  },
+
   {
     "neovim/nvim-lspconfig",
     config = function()
