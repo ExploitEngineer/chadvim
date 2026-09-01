@@ -154,6 +154,11 @@ return {
         zig = { compiler_flags = "-O ReleaseFast" },
       },
     },
+    -- setup goes through configs.compiler_explorer, which patches the request
+    -- body so local #include "..." headers travel with the source
+    config = function(_, opts)
+      require("configs.compiler_explorer").setup(opts)
+    end,
     keys = {
       { "<leader>cc", "<cmd>CECompile<CR>", mode = { "n", "v" }, desc = "Compiler Explorer" },
       { "<leader>cC", "<cmd>CECompileLive<CR>", mode = { "n", "v" }, desc = "Compiler Explorer (live)" },
