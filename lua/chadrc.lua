@@ -8,7 +8,7 @@ M.base46 = {
   theme = "default-dark",
 
   -- compile theme colors for these added plugins too (loaded in options.lua)
-  integrations = { "dap", "diffview", "flash", "trouble", "todo", "grug_far" },
+  integrations = { "dap", "diffview", "flash", "trouble", "todo", "grug_far", "neotest", "render-markdown" },
 
   -- base46 ships no lazy.nvim integration file; the Lazy groups sit in its
   -- defaults, where LazyButton's fg is chosen with
@@ -29,6 +29,13 @@ M.base46 = {
   -- and LazyButtonActive is not one of them
   hl_add = {
     LazyButtonActive = { bg = "blue", fg = "black", bold = true },
+
+    -- base46 ships no nvim-treesitter-context integration, so the context
+    -- window inherits Normal and is indistinguishable from the code it floats
+    -- over. Give it the float background and a visible bottom rule.
+    TreesitterContext = { bg = "black2" },
+    TreesitterContextLineNumber = { bg = "black2", fg = "grey_fg" },
+    TreesitterContextSeparator = { fg = "line" },
   },
 }
 
@@ -58,6 +65,12 @@ M.mason = {
     "tailwindcss-language-server",
     "vtsls",
     "yaml-language-server",
+
+    -- linters (see configs/lint.lua; every other filetype is covered by its LSP)
+    "golangci-lint",
+    "hadolint",
+    "markdownlint-cli2",
+    "shellcheck",
 
     -- formatters
     "clang-format",

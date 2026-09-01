@@ -14,4 +14,27 @@ return {
       require "configs.dap"
     end,
   },
+
+  -- DAP adapter for Neovim's own Lua: debug this config with the setup above.
+  -- Two instances are involved -- see the nlua block in lua/configs/dap.lua.
+  {
+    "jbyuki/one-small-step-for-vimkind",
+    dependencies = "mfussenegger/nvim-dap",
+    keys = {
+      {
+        "<leader>dL",
+        function()
+          require("osv").launch { port = 8086 }
+        end,
+        desc = "Launch Lua debug server",
+      },
+      {
+        "<leader>dN",
+        function()
+          require("osv").run_this()
+        end,
+        desc = "Debug this Lua file",
+      },
+    },
+  },
 }

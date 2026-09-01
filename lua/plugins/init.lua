@@ -8,6 +8,43 @@ return {
     opts = require "configs.conform",
   },
 
+  -- the other half of the conform pair: linters for the filetypes whose LSP
+  -- doesn't already carry one (see lua/configs/lint.lua for what's covered)
+  {
+    "mfussenegger/nvim-lint",
+    event = "User FilePost",
+    config = function()
+      require "configs.lint"
+    end,
+    -- declared here rather than in configs/lint.lua so lazy registers the
+    -- stub up front and the cheatsheet lists it before the plugin has loaded
+    keys = {
+      {
+        "<leader>cl",
+        function()
+          require("lint").try_lint()
+        end,
+        desc = "Lint buffer",
+      },
+    },
+  },
+
+  -- lazydev registers its own nvim-cmp source; wire it in ahead of the rest so
+  -- plugin module completions in lua/ outrank buffer words
+  {
+    "hrsh7th/nvim-cmp",
+    opts = function(_, opts)
+      opts.sources = opts.sources or {}
+      for _, source in ipairs(opts.sources) do
+        if source.name == "lazydev" then
+          return opts -- change_detection re-runs this; don't stack duplicates
+        end
+      end
+      table.insert(opts.sources, 1, { name = "lazydev", group_index = 0 })
+      return opts
+    end,
+  },
+
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -94,22 +131,11 @@ return {
 
   {
     "folke/which-key.nvim",
+    -- Groups are generated from the same prefix table the cheatsheet sections
+    -- on, so a new <leader> prefix is declared in exactly one place and the
+    -- two views can't drift apart.
     opts = {
-      spec = {
-        { "<leader>b", group = "buffer" },
-        { "<leader>c", group = "code" },
-        { "<leader>d", group = "debug" },
-        { "<leader>f", group = "find" },
-        { "<leader>g", group = "git" },
-        { "<leader>gh", group = "hunks" },
-        { "<leader>q", group = "session" },
-        { "<leader>R", group = "rest" },
-        { "<leader>s", group = "search" },
-        { "<leader>u", group = "toggles" },
-        { "<leader>w", group = "windows" },
-        { "<leader>x", group = "diagnostics/quickfix" },
-        { "gs", group = "surround" },
-      },
+      spec = require("configs.cheatsheet").wk_spec(),
     },
   },
 }

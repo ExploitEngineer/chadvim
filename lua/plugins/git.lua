@@ -44,5 +44,28 @@ return {
   },
 
   -- lazygit needs no plugin: <leader>gg opens it in an NvChad floating term
-  -- (see lua/mappings.lua)
+  -- (see lua/mappings.lua),
+
+  -- GitHub issues/PRs as buffers, backed by the same `gh` CLI already set up.
+  -- Review comments become virtual text on the diff; `gh auth` provides creds.
+  {
+    "pwntester/octo.nvim",
+    cmd = "Octo",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      picker = "telescope",
+      -- the classic `gh` token has no read:project scope; silence the nag
+      suppress_missing_scope = { projects_v2 = true },
+    },
+    keys = {
+      { "<leader>go", "<cmd>Octo<CR>", desc = "Octo" },
+      { "<leader>gi", "<cmd>Octo issue list<CR>", desc = "Issues (Octo)" },
+      { "<leader>gp", "<cmd>Octo pr list<CR>", desc = "Pull requests (Octo)" },
+      { "<leader>gv", "<cmd>Octo review start<CR>", desc = "Start PR review (Octo)" },
+    },
+  },
 }

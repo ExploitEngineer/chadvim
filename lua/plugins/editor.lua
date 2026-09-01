@@ -174,4 +174,53 @@ return {
       },
     },
   },
+
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = "User FilePost",
+    opts = {
+      max_lines = 3, -- a whole nested context stack eats the window otherwise
+      multiline_threshold = 1, -- collapse long signatures to their first line
+      trim_scope = "outer", -- drop outer scopes first when max_lines is hit
+      separator = "\u{2500}",
+    },
+    keys = {
+      { "<leader>ut", "<cmd>TSContextToggle<CR>", desc = "Toggle treesitter context" },
+      -- upstream suggests [c, which is diff-mode's builtin "previous change";
+      -- that matters inside :Diffview, so this takes the capital instead
+      {
+        "[C",
+        function()
+          require("treesitter-context").go_to_context(vim.v.count1)
+        end,
+        desc = "Jump to context",
+      },
+    },
+  },
+
+  -- native `gc` reads `commentstring` from the buffer, which is wrong inside a
+  -- JSX/TSX expression block ({/* */} vs //). This picks it per treesitter node.
+  {
+    "folke/ts-comments.nvim",
+    event = "User FilePost",
+    opts = {},
+  },
+
+  {
+    "windwp/nvim-ts-autotag",
+    ft = {
+      "html",
+      "xml",
+      "markdown",
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "svelte",
+      "vue",
+      "astro",
+      "php",
+    },
+    opts = {},
+  },
 }
