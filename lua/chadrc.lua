@@ -5,7 +5,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "ayu_dark",
+  theme = "default-dark",
 
   -- compile theme colors for these added plugins too (loaded in options.lua)
   integrations = { "dap", "diffview", "flash", "trouble", "todo", "grug_far" },
