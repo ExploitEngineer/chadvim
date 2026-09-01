@@ -132,23 +132,26 @@ return {
       line_match = { highlight = true, jump = false },
       open_qflist = true, -- compiler diagnostics land in the quickfix list
 
-      -- Pinning a compiler per language skips the picker entirely on
-      -- :CECompile. These ids are godbolt's, matched against the local
-      -- toolchain so the asm shown is what this machine would actually
-      -- produce; re-check them after a toolchain bump with
-      --   curl -s "https://godbolt.org/api/compilers/c?fields=id,name"
-      -- Note the id scheme differs by language: C prefixes with a `c`
-      -- (cclang2210, cg162) where C++ does not (clang2210, g162).
+      -- Only flags are pre-set, not the compiler: pinning one skips the
+      -- chooser entirely, and picking the compiler per run is the point of
+      -- the tool. These strings pre-fill the "Select compiler options>"
+      -- prompt, which is a vim.ui.input and always appears; press Enter to
+      -- accept or edit in place.
       --
       -- Keys are godbolt's *language* ids, not Neovim filetypes, so C++ is
-      -- "c++" and not "cpp". A key that matches no language is ignored in
-      -- silence and you get the 900-entry picker back.
+      -- "c++" and not "cpp". A key matching no language is ignored in silence.
+      --
+      -- To pin a compiler and skip the chooser, add `compiler = "<id>"` here.
+      -- Ids matching this machine's toolchain, from
+      --   curl -s "https://godbolt.org/api/compilers/c?fields=id,name"
+      -- are cclang2210 / clang2210 (clang 22.1.8), cg162 / g162 (gcc 16.2.1),
+      -- r1980 (rustc 1.98.0), ztrunk (zig 0.17 dev), gl1260 (go, godbolt
+      -- tops out at 1.26). Note C prefixes ids with a `c`, C++ does not.
       languages = {
-        c = { compiler = "cclang2210", compiler_flags = "-O2 -Wall -Wextra" }, -- local clang 22.1.8
-        ["c++"] = { compiler = "clang2210", compiler_flags = "-O2 -Wall -Wextra" },
-        rust = { compiler = "r1980", compiler_flags = "-C opt-level=2" }, -- local rustc 1.98.0
-        zig = { compiler = "ztrunk", compiler_flags = "-O ReleaseFast" }, -- local zig is a 0.17 dev build
-        go = { compiler = "gl1260" }, -- godbolt tops out at 1.26; local go is 1.27
+        c = { compiler_flags = "-O2 -Wall -Wextra" },
+        ["c++"] = { compiler_flags = "-O2 -Wall -Wextra" },
+        rust = { compiler_flags = "-C opt-level=2" },
+        zig = { compiler_flags = "-O ReleaseFast" },
       },
     },
     keys = {
