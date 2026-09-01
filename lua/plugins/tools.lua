@@ -99,4 +99,42 @@ return {
     -- <leader>D toggle lives in lua/mappings.lua; the sql cmp source hook in
     -- lua/autocmds.lua
   },
+
+  -- xxd-backed hex view: :HexToggle round-trips the buffer through xxd, so
+  -- edits in the hex pane write back to the real binary on :w
+  {
+    "RaafatTurki/hex.nvim",
+    cmd = { "HexToggle", "HexDump", "HexAssemble" },
+    opts = {},
+    keys = {
+      { "<leader>uh", "<cmd>HexToggle<CR>", desc = "Toggle hex view" },
+    },
+  },
+
+  -- godbolt.org from inside the buffer: compiles the file (or the visual
+  -- selection) remotely and opens the asm side by side, with source lines
+  -- highlighted against the instructions they generated
+  {
+    "krady21/compiler-explorer.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    cmd = {
+      "CECompile",
+      "CECompileLive",
+      "CEFormat",
+      "CEAddLibrary",
+      "CELoadExample",
+      "CEOpenWebsite",
+      "CEDeleteCache",
+      "CEShowTooltip",
+      "CEGotoLabel",
+    },
+    opts = {
+      line_match = { highlight = true, jump = false },
+      open_qflist = true, -- compiler diagnostics land in the quickfix list
+    },
+    keys = {
+      { "<leader>cc", "<cmd>CECompile<CR>", mode = { "n", "v" }, desc = "Compiler Explorer" },
+      { "<leader>cC", "<cmd>CECompileLive<CR>", mode = { "n", "v" }, desc = "Compiler Explorer (live)" },
+    },
+  },
 }
