@@ -14,8 +14,21 @@ local del = vim.keymap.del
 pcall(del, "n", "<leader>h") -- horizontal term → harpoon (<A-h> term toggle remains)
 pcall(del, "n", "<leader>ds") -- diagnostic loclist → frees <leader>d* for dap
 pcall(del, "v", "<leader>/") -- comment → native gc
+
+-- NvChad maps <leader>b to "new buffer" and <leader>x to "close buffer", both
+-- of which are also prefixes this config groups on (buffer, diagnostics).
+-- A mapping on the bare prefix means <leader>x sits through timeoutlen and
+-- then closes the buffer instead of opening the which-key group. Close is
+-- already on <leader>bd, so drop it outright; new buffer moves into the group
+-- it belongs to.
+pcall(del, "n", "<leader>b")
+pcall(del, "n", "<leader>x")
 map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Explorer toggle" }) -- was NvimTreeFocus
 map("n", "<leader>/", "<cmd>Telescope live_grep<CR>", { desc = "Grep" }) -- was comment
+
+-- NvChad's own desc is "toggle nvcheatsheet", which the rewritten collector
+-- would file under Toggles; this puts it in Code with the rest of <leader>c
+map("n", "<leader>ch", "<cmd>NvCheatsheet<CR>", { desc = "Cheatsheet" })
 
 -- ───────────────────── buffers (tabufline) ───────────────────────────────
 map("n", "<S-h>", function()
@@ -33,6 +46,8 @@ end, { desc = "Delete buffer" })
 map("n", "<leader>bo", function()
   require("nvchad.tabufline").closeAllBufs(false)
 end, { desc = "Delete other buffers" })
+
+map("n", "<leader>bn", "<cmd>enew<CR>", { desc = "New buffer" })
 
 -- ───────────────────── pickers (telescope) ───────────────────────────────
 map("n", "<leader><space>", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
