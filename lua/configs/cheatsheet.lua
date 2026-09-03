@@ -32,6 +32,7 @@ local M = {}
 -- popup is read mid-keystroke and wants one word, the cheatsheet is read cold
 -- and wants to say what the section is for.
 M.groups = {
+  { "<leader>a", "Claude Code", wk = "claude" },
   { "<leader>b", "Files & Buffers", wk = "buffer" },
   { "<leader>c", "LSP & Code", wk = "code" },
   { "<leader>d", "Debug (DAP)", wk = "debug" },
@@ -206,6 +207,17 @@ M.commands = {
   ["Tests"] = {
     { "run nearest", ':lua require"neotest".run.run()' },
     { "summary", ':lua require"neotest".summary.toggle()' },
+  },
+  ["Claude Code"] = {
+    { "toggle the terminal", ":ClaudeCode" },
+    { "resume a session", ":ClaudeCode --resume" },
+    { "start / stop the server", ":ClaudeCodeStart" },
+    { "is the CLI connected?", ":ClaudeCodeStatus" },
+    { "attach a file by path", ":ClaudeCodeAdd %" },
+    { "attach the tree selection", ":ClaudeCodeTreeAdd" },
+    { "accept the open diff", ":ClaudeCodeDiffAccept" },
+    { "reject the open diff", ":ClaudeCodeDiffDeny" },
+    { "drop every open diff", ":ClaudeCodeCloseAllDiffs" },
   },
   ["Toggles"] = {
     { "sticky context on/off", ":TSContextToggle" },
