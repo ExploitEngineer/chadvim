@@ -128,6 +128,17 @@ map("n", "<leader>uF", function()
 end, { desc = "Toggle auto format (buffer)" })
 
 -- ───────────────────── terminal ──────────────────────────────────────────
+-- Window switching from *inside* a terminal, so the Claude pane isn't a
+-- one-way trip. NvChad only maps <C-h/j/k/l> in normal mode, and <C-x> (its
+-- escape-terminal-mode key) is a two-step detour.
+--
+-- Only left/right: Kitty sends ^? for Backspace so <C-h> is free, but <C-j>
+-- and <C-k> are left to the program in the terminal -- Claude Code binds them
+-- for multiline input and line editing. The cost of <C-l> is Claude's
+-- clear-screen; use /clear instead.
+map("t", "<C-h>", "<C-\\><C-N><C-w>h", { desc = "Switch window left" })
+map("t", "<C-l>", "<C-\\><C-N><C-w>l", { desc = "Switch window right" })
+
 -- <C-/> sends <C-_> in most terminals; map both. Bottom split like LazyVim,
 -- shares the <A-h> toggle (<A-i> floating term remains for the float style).
 for _, key in ipairs { "<C-/>", "<C-_>" } do
