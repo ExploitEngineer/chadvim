@@ -46,7 +46,11 @@ return {
       -- through in red and additions in green, interleaved in the real code,
       -- rather than the two-pane "vertical" default. Needs nvim >= 0.9.
       layout = "unified",
-      open_in_new_tab = true, -- keep the review off whatever was being edited
+      -- NOT open_in_new_tab: a diff on its own tab page is invisible from the
+      -- tab you are looking at, and NvChad's tabufline only hints at a second
+      -- tab, so a review can sit there unnoticed while Claude waits on it.
+      -- In the current tab it lands in front of you.
+      open_in_new_tab = false,
       keep_terminal_focus = false, -- land the cursor in the diff, ready to review
     },
   },
