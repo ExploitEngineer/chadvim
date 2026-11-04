@@ -130,6 +130,35 @@ map("n", "<leader>-", "<C-w>s", { desc = "Split window below" })
 map("n", "<leader>|", "<C-w>v", { desc = "Split window right" })
 map("n", "<leader>wd", "<C-w>c", { desc = "Delete window" })
 
+-- ───────────────────── copy for agents ───────────────────────────────────
+-- path#L12 (or #L12-L20 from a selection) to paste into Claude, so it opens
+-- the exact lines; <leader>yc wraps the selection in a fenced code block.
+local function copy_ref(kind)
+  return function()
+    local agent = require "utils.agent_paths"
+    local l1, l2 = vim.fn.line ".", nil
+    if vim.fn.mode():find "^[vV\22]" then
+      l1, l2 = vim.fn.line "v", vim.fn.line "."
+      vim.api.nvim_feedkeys(vim.keycode "<Esc>", "n", false)
+    end
+    local text
+    if kind == "code" then
+      text = agent.code_block(0, l1, l2 or l1)
+    else
+      text = agent[kind .. "_ref"](0, l1, l2)
+    end
+    if not text then
+      vim.notify("Not a file: nothing to reference", vim.log.levels.WARN)
+      return
+    end
+    vim.fn.setreg("+", text)
+    vim.notify("Copied " .. (kind == "code" and "code block" or text))
+  end
+end
+map({ "n", "x" }, "<leader>yf", copy_ref "relative", { desc = "Copy file ref (path#L)" })
+map({ "n", "x" }, "<leader>yp", copy_ref "absolute", { desc = "Copy absolute file ref" })
+map("x", "<leader>yc", copy_ref "code", { desc = "Copy as code block" })
+
 -- ───────────────────── toggles ───────────────────────────────────────────
 map("n", "<leader>uw", function()
   vim.wo.wrap = not vim.wo.wrap

@@ -6,6 +6,7 @@ o.relativenumber = true
 o.scrolloff = 4
 o.sidescrolloff = 8
 o.wrap = false
+o.winborder = "rounded" -- every float that doesn't set its own border
 
 -- persistence.nvim needs globals/skiprtp/folds for full session restore
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }

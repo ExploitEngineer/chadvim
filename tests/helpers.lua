@@ -29,6 +29,31 @@ function T.settle()
   vim.wait(50) -- whatever those callbacks scheduled in turn
 end
 
+-- An in-memory clipboard, so tests that copy never touch the real one.
+-- Returns the store: store["+"] is { lines, regtype } after a copy.
+function T.fake_clipboard()
+  local store = {}
+  local function copy(reg)
+    return function(lines, regtype)
+      store[reg] = { lines, regtype }
+    end
+  end
+  local function paste(reg)
+    return function()
+      return store[reg] or { {}, "v" }
+    end
+  end
+  vim.g.clipboard = {
+    name = "chadvim-test",
+    copy = { ["+"] = copy "+", ["*"] = copy "*" },
+    paste = { ["+"] = paste "+", ["*"] = paste "*" },
+  }
+  -- the provider reads g:clipboard once; make it read ours
+  vim.g.loaded_clipboard_provider = nil
+  vim.cmd.runtime "autoload/provider/clipboard.vim"
+  return store
+end
+
 function T.done()
   for _, failure in ipairs(T.failures) do
     io.stdout:write("FAIL: " .. failure .. "\n")

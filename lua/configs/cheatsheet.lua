@@ -46,6 +46,7 @@ M.groups = {
   { "<leader>u", "Toggles", wk = "toggles" },
   { "<leader>w", "Windows & Terminal", wk = "windows" },
   { "<leader>x", "Diagnostics", wk = "diagnostics" },
+  { "<leader>y", "Copy for Agents", wk = "copy" },
   { "gs", "Editing", wk = "surround" },
 
   -- harpoon owns a scattered set of leader keys rather than one prefix

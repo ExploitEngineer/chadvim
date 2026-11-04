@@ -83,3 +83,26 @@ reload_poll:start(
 
 -- repaint when HyDE switches theme while the active theme is wallbash
 require("theme_cache").watch()
+
+-- Cursorline only in the window you are in, so the active split is obvious.
+-- Normal file windows only: floats, terminals and nvdash manage their own.
+local function is_file_window()
+  return vim.bo.buftype == "" and vim.api.nvim_win_get_config(0).relative == ""
+end
+local active_cursorline = vim.api.nvim_create_augroup("active_cursorline", { clear = true })
+autocmd({ "WinEnter", "BufWinEnter" }, {
+  group = active_cursorline,
+  callback = function()
+    if is_file_window() then
+      vim.wo.cursorline = true
+    end
+  end,
+})
+autocmd("WinLeave", {
+  group = active_cursorline,
+  callback = function()
+    if is_file_window() then
+      vim.wo.cursorline = false
+    end
+  end,
+})
