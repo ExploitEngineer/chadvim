@@ -30,19 +30,23 @@ local function write(path, text)
   end
 end
 
---- What the compiled cache must have been built from for `theme`.
+--- What the compiled cache must have been built from for `theme`: the whole
+--- base46 config (theme, integrations, hl_add, hl_override...), plus the
+--- palette file when the theme is wallbash.
 function M.stamp(theme)
+  -- vim.inspect sorts keys, so equal configs give equal strings
+  local config = vim.fn.sha256(vim.inspect(require("nvconfig").base46))
   if theme ~= "wallbash" then
-    return theme
+    return theme .. ":" .. config
   end
   -- HyDE's wall.dcol is a symlink into dcols/, repointed per wallpaper: the
   -- target path tells two cached palettes apart even at equal size and mtime
   local path = require("wallbash.palette").path()
   local real, stat = vim.uv.fs_realpath(path), vim.uv.fs_stat(path)
   if not (real and stat) then
-    return theme .. ":no-palette"
+    return theme .. ":" .. config .. ":no-palette"
   end
-  return ("%s:%s:%d:%d.%d"):format(theme, real, stat.size, stat.mtime.sec, stat.mtime.nsec)
+  return ("%s:%s:%s:%d:%d.%d"):format(theme, config, real, stat.size, stat.mtime.sec, stat.mtime.nsec)
 end
 
 --- Recompile every integration and apply it, then record the stamp.

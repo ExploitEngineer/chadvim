@@ -119,6 +119,20 @@ link "light.dcol"
 vim.wait(800)
 T.eq(hl_bg "Normal", "#0b0e14", "watcher leaves other themes alone")
 
+-- any other base46 setting in chadrc.lua changed while Neovim was closed
+-- (integrations, hl_add, hl_override...) also invalidates the compiled cache
+local conf = require("nvconfig").base46
+use_theme "ayu_dark"
+table.insert(conf.integrations, "notify")
+-- base46 copies the integration list when its module loads, which at a real
+-- startup is always after chadrc.lua changed; reload it to match
+require("plenary.reload").reload_module "base46"
+require("theme_cache").load()
+T.ok(vim.uv.fs_stat(vim.g.base46_cache .. "notify") ~= nil, "a newly listed integration gets compiled")
+conf.hl_add.ChadvimStampProbe = { fg = "red" }
+require("theme_cache").load()
+T.ok(next(vim.api.nvim_get_hl(0, { name = "ChadvimStampProbe" })) ~= nil, "a new hl_add group gets compiled")
+
 -- NvChad's picker renames the theme with a file-wide gsub over chadrc.lua, so
 -- no theme name may appear there except the active one, once
 local chadrc = read(vim.fn.stdpath "config" .. "/lua/chadrc.lua")
