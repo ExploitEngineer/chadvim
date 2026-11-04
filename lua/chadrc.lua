@@ -43,6 +43,10 @@ M.base46 = {
 
 M.nvdash = { load_on_startup = true }
 
+-- Colour swatches come from nvim-highlight-colors (lua/plugins/ui.lua); NvChad's
+-- own Colorify would paint every colour a second time.
+M.colorify = { enabled = false }
+
 -- :MasonInstallAll reads this list (mason registry names, not lspconfig names).
 -- rustfmt comes from the system rust toolchain (pacman), so it is not listed.
 -- zls is NOT here on purpose: mason only ships tagged zls, which won't run

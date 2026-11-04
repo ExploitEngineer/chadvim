@@ -224,10 +224,9 @@ M.commands = {
     { "drop every open diff", ":ClaudeCodeCloseAllDiffs" },
   },
   ["Toggles"] = {
-    { "sticky context on/off", ":TSContextToggle" },
+    { "sticky context on/off", ":TSContext toggle" },
     { "markdown render", ":RenderMarkdown toggle" },
-    { "colour swatches", ":ColorizerToggle" },
-    { "reattach colorizer", ":ColorizerReloadAllBuffers" },
+    { "colour swatches", ":HighlightColors Toggle" },
   },
   ["LSP & Code"] = {
     { "lua LSP libraries", ":LazyDev lsp" },

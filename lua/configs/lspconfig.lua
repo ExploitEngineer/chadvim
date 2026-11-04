@@ -3,6 +3,10 @@
 
 local nvlsp = require "nvchad.configs.lspconfig"
 
+-- Neovim 0.12 paints LSP document colours (a background fill) by itself;
+-- nvim-highlight-colors already draws one swatch per colour, LSP ones included.
+vim.lsp.document_color.enable(false)
+
 -- Replace NvChad's on_attach BEFORE defaults(): the LspAttach autocmd it
 -- registers looks up M.on_attach at event time, so this swaps the keymaps.
 -- Intentionally absent: NvChad's buffer-local <leader>D (type definition,

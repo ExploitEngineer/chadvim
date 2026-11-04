@@ -4,7 +4,7 @@
 local T = dofile "tests/helpers.lua"
 
 -- Command prefixes of removed plugins. Each swap adds the one it removed.
-local REMOVED = { "Telescope", "NvimTree", "Diffview" }
+local REMOVED = { "Telescope", "NvimTree", "Diffview", "Colorizer" }
 
 T.settle()
 
