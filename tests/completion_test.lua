@@ -52,4 +52,16 @@ T.eq(
   "crates has no cmp source"
 )
 
+-- auto-pairs: mini.pairs, not nvim-autopairs
+T.eq(plugins["nvim-autopairs"], nil, "nvim-autopairs is gone")
+vim.cmd.enew()
+vim.api.nvim_feedkeys(vim.keycode "i(<Esc>", "xt", false)
+T.eq(vim.api.nvim_get_current_line(), "()", "typing ( inserts ()")
+
+-- its insert-mode maps stay out of the cheatsheet, like nvim-autopairs' did
+local sections = vim.tbl_keys(require("configs.cheatsheet").organize_mappings())
+for _, junk in ipairs { "Open", "Close", "Closeopen", "MiniPairs" } do
+  T.ok(not vim.list_contains(sections, junk), "no cheatsheet section " .. junk)
+end
+
 T.done()

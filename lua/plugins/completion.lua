@@ -4,6 +4,10 @@ return {
   -- with Neovim's own vim.snippet and reads friendly-snippets directly.
   { "hrsh7th/nvim-cmp", enabled = false },
   { "L3MON4D3/LuaSnip", enabled = false },
+  { "windwp/nvim-autopairs", enabled = false }, -- mini.pairs below
+
+  -- ( inserts (), and the same for brackets and quotes
+  { "nvim-mini/mini.pairs", event = "InsertEnter", opts = {} },
 
   {
     "saghen/blink.cmp",

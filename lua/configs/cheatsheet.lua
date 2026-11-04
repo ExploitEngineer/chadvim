@@ -110,6 +110,11 @@ M.overrides = {
 -- lowercase ("buffer goto next") and this config writes them in sentence case.
 -- Order matters: the first pattern to match wins.
 M.desc_rules = {
+  -- mini.pairs' insert-mode maps ('Open action for "()" pair', "MiniPairs
+  -- <BS>"...): typing, not something to look up, so filed under the
+  -- excluded Autopairs section
+  { "action for .* pair$", "Autopairs" },
+  { "^minipairs", "Autopairs" },
   -- flash owns s/S/r/R plus <C-s> in the cmdline: five different first words
   { "flash", "Jump & Goto" },
   { "terminal", "Windows & Terminal" },
