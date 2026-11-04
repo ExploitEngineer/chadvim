@@ -91,6 +91,7 @@ map("n", "<leader>ma", pick "marks", { desc = "Marks" })
 map("n", "<leader>sR", pick "resume", { desc = "Resume last picker" })
 map("n", "<leader>cm", pick "git_log", { desc = "Git commits" })
 map("n", "<leader>gt", pick "git_status", { desc = "Git status" })
+map("n", "<leader>sn", pick "notifications", { desc = "Notification history" })
 
 -- ───────────────────── diagnostics ───────────────────────────────────────
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })
@@ -209,13 +210,10 @@ for _, key in ipairs { "<C-/>", "<C-_>" } do
 end
 
 -- ───────────────────── git ───────────────────────────────────────────────
+-- snacks' lazygit: themed from the active colours, and `e` on a file opens it
+-- in this Neovim instead of a nested editor
 map("n", "<leader>gg", function()
-  require("nvchad.term").toggle {
-    pos = "float",
-    id = "lazygit",
-    cmd = "lazygit",
-    float_opts = { width = 0.9, height = 0.9 },
-  }
+  Snacks.lazygit()
 end, { desc = "Lazygit" })
 
 -- ───────────────────── harpoon ───────────────────────────────────────────

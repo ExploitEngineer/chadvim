@@ -34,6 +34,32 @@ return {
   { "nvim-telescope/telescope.nvim", enabled = false }, -- snacks picker (plugins/snacks.lua)
   { "nvim-tree/nvim-tree.lua", enabled = false }, -- oil (plugins/editor.lua)
 
+  -- Installs whatever chadrc's M.mason.pkgs lists that is missing (the list
+  -- :MasonInstallAll reads), a few seconds after startup. Never updates.
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "mason-org/mason.nvim" },
+    event = "VeryLazy",
+    cmd = { "MasonToolsInstall", "MasonToolsInstallSync", "MasonToolsUpdate", "MasonToolsClean" },
+    opts = function()
+      return {
+        ensure_installed = require("chadrc").mason.pkgs,
+        auto_update = false,
+        run_on_start = true,
+        start_delay = 3000,
+      }
+    end,
+    config = function(_, opts)
+      local mti = require "mason-tool-installer"
+      mti.setup(opts)
+      -- its plugin/ file runs the check on VimEnter, which a VeryLazy load
+      -- has already missed
+      if vim.v.vim_did_enter == 1 then
+        mti.run_on_start()
+      end
+    end,
+  },
+
   {
     "neovim/nvim-lspconfig",
     config = function()

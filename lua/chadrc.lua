@@ -38,6 +38,12 @@ M.base46 = {
     TreesitterContext = { bg = "black2" },
     TreesitterContextLineNumber = { bg = "black2", fg = "grey_fg" },
     TreesitterContextSeparator = { fg = "line" },
+
+    -- snacks links the directory part of picker paths to NonText, which
+    -- base46 draws barely above the background (1.2-1.5:1 measured). A
+    -- quarter of the way from text toward background keeps it secondary but
+    -- readable in dark and light themes (tests/contrast_test.lua).
+    SnacksPickerDir = { fg = { "white", "black", 25 } },
   },
 }
 

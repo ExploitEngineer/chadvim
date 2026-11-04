@@ -22,6 +22,12 @@ if ! timeout 600 nvim --headless "+Lazy! install" +qa >/dev/null 2>&1; then
   echo "FAIL: :Lazy install did not finish within 600s"
   exit 1
 fi
+# Same for mason tools: mason-tool-installer installs anything missing a few
+# seconds after every start, which a short test would kill mid-install.
+if ! timeout 900 nvim --headless "+MasonToolsInstallSync" +qa >/dev/null 2>&1; then
+  echo "FAIL: :MasonToolsInstallSync did not finish within 900s"
+  exit 1
+fi
 
 for file in tests/*_test.lua; do
   [[ -n $filter && $file != *"$filter"* ]] && continue

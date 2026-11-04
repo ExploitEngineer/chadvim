@@ -14,5 +14,14 @@ return {
       -- code actions, :Octo and :RustLsp lists all get fuzzy search
       ui_select = true,
     },
+    notifier = { enabled = true }, -- vim.notify as toasts; history on <leader>sn
+    lazygit = { enabled = true }, -- <leader>gg; themed from the active colours
+    words = { enabled = true }, -- highlight other uses of the word under the cursor
+
+    -- NvChad's UI owns these
+    dashboard = { enabled = false },
+    indent = { enabled = false },
+    scroll = { enabled = false },
+    statuscolumn = { enabled = false },
   },
 }

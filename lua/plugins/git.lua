@@ -33,6 +33,16 @@ return {
     end,
   },
 
+  -- Copy a GitHub permalink to the line or selection
+  {
+    "linrongbin16/gitlinker.nvim",
+    cmd = "GitLink",
+    opts = {},
+    keys = {
+      { "<leader>gy", "<cmd>GitLink<CR>", mode = { "n", "v" }, desc = "Copy GitHub permalink" },
+    },
+  },
+
   -- Whole-change review: a VS Code style side-by-side diff with a file
   -- explorer, and file/repo history. Same keys diffview had.
   {
