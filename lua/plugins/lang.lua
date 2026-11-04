@@ -10,8 +10,10 @@ return {
   {
     "saecki/crates.nvim",
     event = "BufRead Cargo.toml",
+    -- crate names, versions and features through its in-process LSP, which
+    -- any completion engine picks up (blink's lsp source here)
     opts = {
-      completion = { cmp = { enabled = true } },
+      lsp = { enabled = true, actions = true, completion = true, hover = true },
     },
   },
 

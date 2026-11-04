@@ -24,26 +24,18 @@ autocmd("BufReadPost", {
   end,
 })
 
-autocmd("FileType", {
-  pattern = { "sql", "mysql", "plsql" },
-  desc = "dadbod completion source for SQL buffers",
-  callback = function()
-    require("cmp").setup.buffer { sources = { { name = "vim-dadbod-completion" } } }
-  end,
-})
-
--- base46 only recompiles its highlight cache in the plugin's own `build` hook,
--- so editing M.base46 in chadrc (a new integration, an hl_override) changes
--- nothing until the next base46 update. That failure is silent: the compiled
--- file for the new integration simply never exists and options.lua's dofile
--- loop pcall-skips it. Recompile whenever chadrc is written instead.
+-- Editing M.base46 in chadrc (a new integration, an hl_override) inside
+-- Neovim applies on save. Edits made elsewhere apply at the next start (see
+-- lua/theme_cache.lua); going through it here records the stamp, so that
+-- start does not compile a second time.
 autocmd("BufWritePost", {
   pattern = vim.fn.stdpath "config" .. "/lua/chadrc.lua",
   desc = "Recompile base46 highlights after a chadrc edit",
   callback = function()
     require("plenary.reload").reload_module "chadrc"
     require("plenary.reload").reload_module "nvconfig"
-    require("base46").load_all_highlights()
+    require("plenary.reload").reload_module "base46"
+    require("theme_cache").compile()
     vim.notify "base46 highlights recompiled"
   end,
 })

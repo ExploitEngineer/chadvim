@@ -10,7 +10,7 @@ M.base46 = {
   theme = "wallbash",
 
   -- compile theme colors for these added plugins too (loaded in options.lua)
-  integrations = { "dap", "diffview", "flash", "trouble", "todo", "grug_far", "neotest", "render-markdown" },
+  integrations = { "blink", "dap", "diffview", "flash", "trouble", "todo", "grug_far", "neotest", "render-markdown" },
 
   -- base46 ships no lazy.nvim integration file; the Lazy groups sit in its
   -- defaults, where LazyButton's fg is chosen with

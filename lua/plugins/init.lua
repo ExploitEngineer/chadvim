@@ -29,22 +29,6 @@ return {
     },
   },
 
-  -- lazydev registers its own nvim-cmp source; wire it in ahead of the rest so
-  -- plugin module completions in lua/ outrank buffer words
-  {
-    "hrsh7th/nvim-cmp",
-    opts = function(_, opts)
-      opts.sources = opts.sources or {}
-      for _, source in ipairs(opts.sources) do
-        if source.name == "lazydev" then
-          return opts -- change_detection re-runs this; don't stack duplicates
-        end
-      end
-      table.insert(opts.sources, 1, { name = "lazydev", group_index = 0 })
-      return opts
-    end,
-  },
-
   -- NvChad plugins replaced by devaslife's picks. Disabled here, not removed
   -- from NvChad, so updating NvChad never brings them back.
   { "nvim-telescope/telescope.nvim", enabled = false }, -- snacks picker (plugins/snacks.lua)
