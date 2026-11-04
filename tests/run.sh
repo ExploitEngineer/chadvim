@@ -4,10 +4,11 @@
 #   tests/run.sh            all tests
 #   tests/run.sh theme      only files whose path contains "theme"
 #
-# Each file gets two fresh temp dirs: CHADVIM_BASE46_CACHE (a copy of the real
-# compiled cache, so tests never compile into the one a normal start loads)
-# and HYDE_CACHE_HOME (a copy of tests/fixtures/hyde, so tests can rewrite
-# wall.dcol freely).
+# Runs with -i NONE: your ShaDa (marks, last cursor positions, history) must
+# not steer a test. Each file gets two fresh temp dirs: CHADVIM_BASE46_CACHE
+# (a copy of the real compiled cache, so tests never compile into the one a
+# normal start loads) and HYDE_CACHE_HOME (a copy of tests/fixtures/hyde, so
+# tests can rewrite wall.dcol freely).
 set -u
 cd "$(dirname "$0")/.." || exit 1
 
@@ -34,7 +35,7 @@ for file in tests/*_test.lua; do
   [[ -d tests/fixtures/hyde ]] && cp -r tests/fixtures/hyde/. "$tmp/hyde/"
 
   out=$(CHADVIM_BASE46_CACHE="$tmp/base46/" HYDE_CACHE_HOME="$tmp/hyde" CHADVIM_TEST_FILE="$file" \
-    timeout 120 nvim --headless -c "luafile tests/runner.lua" 2>&1)
+    timeout 120 nvim --headless -i NONE -c "luafile tests/runner.lua" 2>&1)
   code=$?
   rm -rf "$tmp"
 

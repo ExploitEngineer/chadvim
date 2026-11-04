@@ -9,11 +9,26 @@ T.ok(select_src:find("snacks", 1, true) ~= nil, "vim.ui.select is the snacks pic
 vim.cmd.edit "lua/options.lua"
 T.settle()
 
+-- tests run without ShaDa (-i NONE): give the history and recent-file
+-- pickers something to list
+vim.fn.histadd("cmd", "echo 'picker test'")
+-- (not the current buffer: the recent picker leaves that one out)
+vim.v.oldfiles = { vim.fn.getcwd() .. "/lua/chadrc.lua", vim.fn.getcwd() .. "/lua/mappings.lua" }
+
 local function close_all()
   for _, picker in ipairs(Snacks.picker.get()) do
     picker:close()
   end
-  vim.wait(100)
+  -- closing is not instant: wait until no picker window is left, so the
+  -- next key runs in the file window, not a closing picker's input
+  vim.wait(2000, function()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.bo[vim.api.nvim_win_get_buf(win)].filetype:find "^snacks_picker" then
+        return false
+      end
+    end
+    return true
+  end, 20)
 end
 
 local KEYS = {
