@@ -2,6 +2,16 @@ return {
   {
     "mistweaverco/kulala.nvim",
     ft = { "http", "rest" },
+    -- kulala's bundled lazy.lua adds SessionLoadPost and VimLeavePre so its
+    -- session hooks exist before a save/restore. Loading there runs its
+    -- tree-sitter grammar fetch on every quit and every :restart: the quit's
+    -- fetch outlives Neovim and the restart's collides with it on git's
+    -- shallow.lock ("Press ENTER" on startup). An HTTP client loads for HTTP.
+    event = function(_, events)
+      return vim.tbl_filter(function(event)
+        return event ~= "SessionLoadPost" and event ~= "VimLeavePre"
+      end, events or {})
+    end,
     opts = { global_keymaps = false },
     keys = {
       {
