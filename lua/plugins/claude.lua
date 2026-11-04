@@ -8,11 +8,6 @@
 -- as real buffers to review before they touch disk.
 return {
   "coder/claudecode.nvim",
-  -- No snacks.nvim: the README lists it, but every reference to it in the
-  -- plugin is pcall-guarded. The terminal falls back to the builtin one and
-  -- the tree integration reads NvimTree natively, so nothing here needs it.
-  -- Keeping it out avoids its dashboard, statuscolumn, picker and notifier
-  -- all overlapping NvChad's own UI.
 
   cmd = {
     "ClaudeCode",
@@ -33,9 +28,8 @@ return {
 
   opts = {
     terminal = {
-      -- snacks.nvim is listed as a requirement but is optional, and this
-      -- config deliberately avoids it: its dashboard, statuscolumn, picker and
-      -- notifier all overlap NvChad's own UI. "native" is the builtin terminal.
+      -- the builtin terminal, not snacks' (claudecode would pick snacks on
+      -- "auto" now that it is installed)
       provider = "native",
       split_side = "right",
       split_width_percentage = 0.35,

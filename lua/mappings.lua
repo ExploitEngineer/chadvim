@@ -24,7 +24,9 @@ pcall(del, "v", "<leader>/") -- comment → native gc
 pcall(del, "n", "<leader>b")
 pcall(del, "n", "<leader>x")
 map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Explorer toggle" }) -- was NvimTreeFocus
-map("n", "<leader>/", "<cmd>Telescope live_grep<CR>", { desc = "Grep" }) -- was comment
+map("n", "<leader>/", function()
+  Snacks.picker.grep()
+end, { desc = "Grep" }) -- was comment
 
 -- NvChad's own desc is "toggle nvcheatsheet", which the rewritten collector
 -- would file under Toggles; this puts it in Code with the rest of <leader>c
@@ -49,16 +51,36 @@ end, { desc = "Delete other buffers" })
 
 map("n", "<leader>bn", "<cmd>enew<CR>", { desc = "New buffer" })
 
--- ───────────────────── pickers (telescope) ───────────────────────────────
-map("n", "<leader><space>", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
-map("n", "<leader>,", "<cmd>Telescope buffers sort_mru=true<CR>", { desc = "Buffers" })
-map("n", "<leader>:", "<cmd>Telescope command_history<CR>", { desc = "Command history" })
-map("n", "<leader>sg", "<cmd>Telescope live_grep<CR>", { desc = "Grep" })
-map("n", "<leader>sw", "<cmd>Telescope grep_string<CR>", { desc = "Grep word under cursor" })
-map("n", "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<CR>", { desc = "Buffer lines" })
-map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", { desc = "Keymaps" })
-map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", { desc = "Help pages" })
-map("n", "<leader>sR", "<cmd>Telescope resume<CR>", { desc = "Resume last picker" })
+-- ───────────────────── pickers (snacks) ──────────────────────────────────
+-- Same letters as before, LazyVim's and NvChad's both. NvChad's <leader>pt
+-- (pick a hidden NvChad term) has no snacks equivalent and is dropped.
+pcall(del, "n", "<leader>pt")
+
+local function pick(source, opts)
+  return function()
+    Snacks.picker[source](opts)
+  end
+end
+
+map("n", "<leader><space>", pick "files", { desc = "Find files" })
+map("n", "<leader>ff", pick "files", { desc = "Find files" })
+map("n", "<leader>fa", pick("files", { hidden = true, ignored = true, follow = true }), { desc = "Find all files" })
+map("n", "<leader>,", pick "buffers", { desc = "Buffers" })
+map("n", "<leader>fb", pick "buffers", { desc = "Buffers" })
+map("n", "<leader>fo", pick "recent", { desc = "Recent files" })
+map("n", "<leader>:", pick "command_history", { desc = "Command history" })
+map("n", "<leader>sg", pick "grep", { desc = "Grep" })
+map("n", "<leader>fw", pick "grep", { desc = "Grep" })
+map({ "n", "x" }, "<leader>sw", pick "grep_word", { desc = "Grep word or selection" })
+map("n", "<leader>sb", pick "lines", { desc = "Buffer lines" })
+map("n", "<leader>fz", pick "lines", { desc = "Buffer lines" })
+map("n", "<leader>sk", pick "keymaps", { desc = "Keymaps" })
+map("n", "<leader>sh", pick "help", { desc = "Help pages" })
+map("n", "<leader>fh", pick "help", { desc = "Help pages" })
+map("n", "<leader>ma", pick "marks", { desc = "Marks" })
+map("n", "<leader>sR", pick "resume", { desc = "Resume last picker" })
+map("n", "<leader>cm", pick "git_log", { desc = "Git commits" })
+map("n", "<leader>gt", pick "git_status", { desc = "Git status" })
 
 -- ───────────────────── diagnostics ───────────────────────────────────────
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line diagnostics" })

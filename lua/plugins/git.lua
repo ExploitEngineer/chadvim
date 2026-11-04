@@ -53,11 +53,11 @@ return {
     cmd = "Octo",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope.nvim",
+      "folke/snacks.nvim",
       "nvim-tree/nvim-web-devicons",
     },
     opts = {
-      picker = "telescope",
+      picker = "snacks",
       -- the classic `gh` token has no read:project scope; silence the nag
       suppress_missing_scope = { projects_v2 = true },
     },

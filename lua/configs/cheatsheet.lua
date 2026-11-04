@@ -86,10 +86,10 @@ M.overrides = {
   ["<leader>/"] = "Search & Recon",
   ["<leader>:"] = "Search & Recon",
   ["<leader><Space>"] = "Search & Recon",
+  ["<leader>ma"] = "Search & Recon",
 
   ["<leader>-"] = "Windows & Terminal",
   ["<leader>|"] = "Windows & Terminal",
-  ["<leader>pt"] = "Windows & Terminal",
 
   ["<leader>D"] = "HTTP & DB",
   ["<leader>cm"] = "Git & Review",
@@ -116,7 +116,6 @@ M.desc_rules = {
   { "^switch window", "Windows & Terminal" },
   { "^show diagnostics", "Diagnostics" },
   { "^buffer", "Files & Buffers" },
-  { "telescope", "Search & Recon" },
   { "^toggle", "Toggles" },
   { "^general", "Editing" },
   { "^move", "Editing" },

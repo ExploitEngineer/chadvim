@@ -33,6 +33,8 @@ return {
         -- in lua/mappings.lua resolve, and ---@type ChadrcConfig type-check
         { path = "ui", words = { "nvchad", "ChadrcConfig" } },
         { path = "base46", words = { "base46" } },
+        -- the Snacks global used by the picker keys
+        { path = "snacks.nvim", words = { "Snacks" } },
       },
     },
   },

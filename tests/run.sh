@@ -15,6 +15,13 @@ filter=${1:-}
 failed=0
 ran=0
 
+# Install any plugin a spec change added, once, before the timed runs: a test
+# killed by its timeout mid-clone leaves a half-checked-out plugin behind.
+if ! timeout 600 nvim --headless "+Lazy! install" +qa >/dev/null 2>&1; then
+  echo "FAIL: :Lazy install did not finish within 600s"
+  exit 1
+fi
+
 for file in tests/*_test.lua; do
   [[ -n $filter && $file != *"$filter"* ]] && continue
   ran=$((ran + 1))

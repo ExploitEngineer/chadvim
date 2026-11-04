@@ -7,16 +7,25 @@ local nvlsp = require "nvchad.configs.lspconfig"
 -- registers looks up M.on_attach at event time, so this swaps the keymaps.
 -- Intentionally absent: NvChad's buffer-local <leader>D (type definition,
 -- would shadow the global DBUI toggle) and <leader>wa/wr/wl.
+---@diagnostic disable-next-line: duplicate-set-field (replacing it is the point)
 nvlsp.on_attach = function(_, bufnr)
   local map = vim.keymap.set
   local function opts(desc)
     return { buffer = bufnr, desc = "LSP " .. desc }
   end
 
-  map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts "Goto definition")
-  map("n", "gr", "<cmd>Telescope lsp_references<CR>", opts "References")
-  map("n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts "Goto implementation")
-  map("n", "gy", "<cmd>Telescope lsp_type_definitions<CR>", opts "Goto type definition")
+  map("n", "gd", function()
+    Snacks.picker.lsp_definitions()
+  end, opts "Goto definition")
+  map("n", "gr", function()
+    Snacks.picker.lsp_references()
+  end, opts "References")
+  map("n", "gI", function()
+    Snacks.picker.lsp_implementations()
+  end, opts "Goto implementation")
+  map("n", "gy", function()
+    Snacks.picker.lsp_type_definitions()
+  end, opts "Goto type definition")
   map("n", "gD", vim.lsp.buf.declaration, opts "Goto declaration")
   map("n", "K", vim.lsp.buf.hover, opts "Hover")
   map("n", "gK", vim.lsp.buf.signature_help, opts "Signature help")
@@ -24,8 +33,12 @@ nvlsp.on_attach = function(_, bufnr)
   map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
   map("n", "<leader>cr", vim.lsp.buf.rename, opts "Rename")
   map("n", "<leader>ra", vim.lsp.buf.rename, opts "Rename")
-  map("n", "<leader>ss", "<cmd>Telescope lsp_document_symbols<CR>", opts "Document symbols")
-  map("n", "<leader>sS", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>", opts "Workspace symbols")
+  map("n", "<leader>ss", function()
+    Snacks.picker.lsp_symbols()
+  end, opts "Document symbols")
+  map("n", "<leader>sS", function()
+    Snacks.picker.lsp_workspace_symbols()
+  end, opts "Workspace symbols")
 end
 
 nvlsp.defaults() -- diagnostics, capabilities, lua_ls (configured + enabled here)

@@ -18,6 +18,8 @@ end
 -- lazy-loads half the plugins) waits on it. Fire it the way a UI would, then
 -- let the scheduled work run: lua/mappings.lua and lazy's VeryLazy.
 function T.settle()
+  -- another Neovim (yours, or an E2E run) may have the same file open
+  vim.opt.shortmess:append "A"
   if not vim.g.ui_entered then
     vim.api.nvim_exec_autocmds("UIEnter", {})
   end

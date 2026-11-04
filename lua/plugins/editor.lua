@@ -80,8 +80,20 @@ return {
         end,
         desc = "Prev todo comment",
       },
-      { "<leader>st", "<cmd>TodoTelescope<CR>", desc = "Todo" },
-      { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<CR>", desc = "Todo/Fix/Fixme" },
+      {
+        "<leader>st",
+        function()
+          Snacks.picker.pick "todo_comments"
+        end,
+        desc = "Todo",
+      },
+      {
+        "<leader>sT",
+        function()
+          Snacks.picker.pick("todo_comments", { keywords = { "TODO", "FIX", "FIXME" } })
+        end,
+        desc = "Todo/Fix/Fixme",
+      },
       { "<leader>xt", "<cmd>Trouble todo toggle<CR>", desc = "Todo (Trouble)" },
     },
   },
