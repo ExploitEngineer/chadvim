@@ -185,7 +185,7 @@ return {
       separator = "\u{2500}",
     },
     keys = {
-      { "<leader>ut", "<cmd>TSContextToggle<CR>", desc = "Toggle treesitter context" },
+      { "<leader>ut", "<cmd>TSContext toggle<CR>", desc = "Toggle treesitter context" },
       -- upstream suggests [c, which is diff-mode's builtin "previous change";
       -- that matters inside :Diffview, so this takes the capital instead
       {

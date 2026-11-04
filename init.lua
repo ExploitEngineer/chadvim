@@ -1,4 +1,6 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
+-- tests point this at a throwaway dir (tests/run.sh) so they never compile
+-- into the real cache that every normal start loads from
+vim.g.base46_cache = vim.env.CHADVIM_BASE46_CACHE or vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = " "
 
 -- bootstrap lazy and all plugins
