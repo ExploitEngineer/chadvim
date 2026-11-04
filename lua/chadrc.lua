@@ -5,7 +5,9 @@
 local M = {}
 
 M.base46 = {
-  theme = "default-dark",
+  -- the picker (<leader>th) rewrites this line with a file-wide find and
+  -- replace, so no theme name may appear anywhere else in this file
+  theme = "wallbash",
 
   -- compile theme colors for these added plugins too (loaded in options.lua)
   integrations = { "dap", "diffview", "flash", "trouble", "todo", "grug_far", "neotest", "render-markdown" },

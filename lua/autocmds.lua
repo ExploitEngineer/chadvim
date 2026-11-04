@@ -88,3 +88,6 @@ reload_poll:start(
     end
   end)
 )
+
+-- repaint when HyDE switches theme while the active theme is wallbash
+require("theme_cache").watch()

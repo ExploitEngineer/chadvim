@@ -27,9 +27,8 @@ require("lazy").setup({
   { import = "plugins" },
 }, lazy_config)
 
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
+-- load theme, recompiling first if the cache is stale (see lua/theme_cache.lua)
+require("theme_cache").load()
 
 require "options"
 require "autocmds"
