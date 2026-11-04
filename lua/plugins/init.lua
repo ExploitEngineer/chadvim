@@ -45,8 +45,10 @@ return {
     end,
   },
 
-  -- replaced by the snacks picker (lua/plugins/snacks.lua)
-  { "nvim-telescope/telescope.nvim", enabled = false },
+  -- NvChad plugins replaced by devaslife's picks. Disabled here, not removed
+  -- from NvChad, so updating NvChad never brings them back.
+  { "nvim-telescope/telescope.nvim", enabled = false }, -- snacks picker (plugins/snacks.lua)
+  { "nvim-tree/nvim-tree.lua", enabled = false }, -- oil (plugins/editor.lua)
 
   {
     "neovim/nvim-lspconfig",

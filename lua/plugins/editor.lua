@@ -1,4 +1,19 @@
 return {
+  -- File explorer: a directory is an editable buffer (rename a line and save
+  -- to rename the file). Keys: <leader>e / <C-n> in lua/mappings.lua.
+  {
+    "stevearc/oil.nvim",
+    -- `nvim .` must land in oil, so it owns directory buffers from startup
+    lazy = false,
+    opts = {
+      default_file_explorer = true,
+      view_options = { show_hidden = true },
+      keymaps = {
+        q = { "actions.close", mode = "n" },
+      },
+    },
+  },
+
   {
     "folke/flash.nvim",
     event = "VeryLazy",
