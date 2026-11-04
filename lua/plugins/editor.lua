@@ -213,8 +213,8 @@ return {
     },
     keys = {
       { "<leader>ut", "<cmd>TSContext toggle<CR>", desc = "Toggle treesitter context" },
-      -- upstream suggests [c, which is diff-mode's builtin "previous change";
-      -- that matters inside :Diffview, so this takes the capital instead
+      -- upstream suggests [c, which is Vim's diff-mode "previous change" and
+      -- here also the hunk jump (plugins/git.lua), so this takes the capital
       {
         "[C",
         function()
