@@ -23,17 +23,7 @@ pcall(del, "v", "<leader>/") -- comment → native gc
 -- it belongs to.
 pcall(del, "n", "<leader>b")
 pcall(del, "n", "<leader>x")
--- oil as a float on the current file's directory, with a preview; the same
--- key closes it. <C-n> is NvChad's old tree toggle, kept for muscle memory.
-local function explorer_toggle()
-  if vim.bo.filetype == "oil" then
-    require("oil").close()
-  else
-    require("oil").open_float(nil, { preview = {} })
-  end
-end
-map("n", "<leader>e", explorer_toggle, { desc = "Explorer toggle" })
-map("n", "<C-n>", explorer_toggle, { desc = "Explorer toggle" })
+map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Explorer toggle" }) -- was NvimTreeFocus
 map("n", "<leader>/", function()
   Snacks.picker.grep()
 end, { desc = "Grep" }) -- was comment

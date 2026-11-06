@@ -1,10 +1,10 @@
--- Theme pass for the plugins base46 has no colours for (snacks, oil,
+-- Theme pass for the plugins base46 has no colours for (snacks,
 -- mini.diff) plus blink: every listed group stays readable (3:1 against what
 -- it is drawn on) in wallbash (here the monochrome fixture palette), a dark
 -- base46 theme and a light one.
 local T = dofile "tests/helpers.lua"
 T.settle()
-require("lazy").load { plugins = { "blink.cmp", "oil.nvim", "mini.diff" }, wait = true }
+require("lazy").load { plugins = { "blink.cmp", "mini.diff" }, wait = true }
 
 local contrast = require("wallbash.palette").contrast
 
@@ -16,8 +16,6 @@ local GROUPS = {
   SnacksPickerPrompt = "NormalFloat",
   SnacksNotifierInfo = "NormalFloat",
   SnacksNotifierTitleInfo = "NormalFloat",
-  OilDir = "NormalFloat",
-  OilFile = "NormalFloat",
   BlinkCmpMenu = "NormalFloat",
   BlinkCmpLabelMatch = "BlinkCmpMenu",
   BlinkCmpMenuSelection = "BlinkCmpMenu",

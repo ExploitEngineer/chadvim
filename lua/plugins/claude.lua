@@ -53,7 +53,7 @@ return {
     { "<leader>ac", "<cmd>ClaudeCode<CR>", desc = "Toggle Claude" },
     { "<leader>af", "<cmd>ClaudeCodeFocus<CR>", desc = "Focus Claude" },
     { "<leader>ab", "<cmd>ClaudeCodeAdd %<CR>", desc = "Add current buffer" },
-    { "<leader>at", "<cmd>ClaudeCodeTreeAdd<CR>", desc = "Add file from explorer", ft = "oil" },
+    { "<leader>at", "<cmd>ClaudeCodeTreeAdd<CR>", desc = "Add file from tree", ft = "NvimTree" },
     { "<leader>as", "<cmd>ClaudeCodeSend<CR>", mode = "v", desc = "Send selection" },
     { "<leader>am", "<cmd>ClaudeCodeSelectModel<CR>", desc = "Select model" },
     { "<leader>ar", "<cmd>ClaudeCode --resume<CR>", desc = "Resume session" },
